@@ -17,7 +17,7 @@ void execute_command(char *command)
 	{
 		args = {command, NULL};
 		execvp(args[0], args);
-		perror("ERROR");
+		perror("./hsh");
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, &status, 0);

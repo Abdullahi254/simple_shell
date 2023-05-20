@@ -1,32 +1,31 @@
 #include "main.h"
 /**
  * execute_command - executes command entered by user
- * @command: command param entered by user
+ * @args: command param entered by user
  * Return: void
  */
-void execute_command(char *command)
+void execute_command(char *args[])
 {
-	pid_t pid;
-	int status, exitStatus, signalStatus;
-	char *args[];
+	pid_t pid, wid;
+	int status;
 
 	pid = fork();
-	if (pid < 0)
-		perror("FORK failed");
-	else if (pid == 0)
+	if (pid == 0)
 	{
-		args = {command, NULL};
-		execvp(args[0], args);
-		perror("./hsh");
-		exit(EXIT_FAILURE);
+		if (execvp(args[0], args) == -1)
+		{
+			perror("./hsh");
+			exit(EXIT_FAILURE);
+		}
 	}
-	waitpid(pid, &status, 0);
+	else if (pid < 0)
+	{
+		perror("./hsh");
+	}
 	else
 	{
-		if (WIFSIGNALED(status))
-		{
-			signalStatus = WTERMSIG(status);
-
-		}
+		do {
+			wid = waitpid(pid, &status, WUNTRACED);
+		} while (!WIFSIGNALED(status));
 	}
 }

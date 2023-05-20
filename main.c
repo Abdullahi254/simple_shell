@@ -7,7 +7,8 @@ int main(void)
 {
 	char *buffer = NULL;
 	size_t buffer_size;
-	char *command;
+	char *token;
+	char **args;
 
 	while (1)
 	{
@@ -30,9 +31,16 @@ int main(void)
 		{
 			continue;
 		}
-		command = strtok(buffer, " ");
-		execute_command(command);
-		free(buffer);
-		return (0);
+		token = strtok(buffer, " ");
+		if (token != NULL)
+		{
+			args = malloc(sizeof(char *) * 2);
+			args[0] = token;
+			args[1] = NULL;
+			execute_command(args);
+			free(args);
+		}
 	}
+	free(buffer);
+	return (0);
 }

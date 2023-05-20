@@ -6,11 +6,15 @@
  */
 void execute_command(char *args[])
 {
-	pid_t pid, wid;
+	pid_t pid;
 	int status;
 
 	pid = fork();
-	if (pid == 0)
+	if (pid < 0)
+	{
+		perror("./hsh");
+	}
+	else if (pid == 0)
 	{
 		if (execvp(args[0], args) == -1)
 		{
@@ -18,14 +22,12 @@ void execute_command(char *args[])
 			exit(EXIT_FAILURE);
 		}
 	}
-	else if (pid < 0)
-	{
-		perror("./hsh");
-	}
 	else
 	{
-		do {
-			wid = waitpid(pid, &status, WUNTRACED);
-		} while (!WIFSIGNALED(status));
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status))
+			WTERMSIG(status);
+		else if (WIFEXITED(status))
+			WEXITSTATUS(status);
 	}
 }

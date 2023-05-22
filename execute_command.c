@@ -1,11 +1,10 @@
 #include "main.h"
 /**
  * execute_command - executes command entered by user
- * @cmd: command entered by user
  * @args: argument or arguments  param entered by user
  * Return: void
  */
-void execute_command(char *cmd, char *args[])
+void execute_command(char *args[])
 {
 	pid_t pid;
 	int status;
@@ -17,7 +16,7 @@ void execute_command(char *cmd, char *args[])
 	}
 	else if (pid == 0)
 	{
-		if (execvp(cmd, args) == -1)
+		if (execvp(args[0], args) == -1)
 		{
 			perror("./hsh");
 			exit(EXIT_FAILURE);

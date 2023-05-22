@@ -9,25 +9,16 @@ int main(void)
 	size_t buffer_size;
 	char *token;
 	char **args;
-	int count;
+	int count, status;
 
 	while (1)
 	{
 		prompt();
-		if (getline(&buffer, &buffer_size, stdin) == -1)
-		{
-			if (feof(stdin))
-			{
-				printf("\n");
-				break;
-			}
-			else
-			{
-				perror("./hsh");
-				break;
-			}
-		}
-		buffer[strcspn(buffer, "\n")] = '\0';
+		status = get_line(&buffer, &buffer_size);
+		if (status == -1)
+			break;
+		else if (status == 0)
+			break;
 		if (strlen(buffer) == 0)
 		{
 			continue;

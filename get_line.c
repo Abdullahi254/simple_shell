@@ -9,6 +9,7 @@ char get_line(char **buffer, size_t *buffer_size)
 {
 	ssize_t char_read;
 
+	char_read = getline(buffer, buffer_size, stdin);
 	if (char_read == -1)
 	{
 		if (feof(stdin))

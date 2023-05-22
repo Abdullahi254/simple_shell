@@ -32,12 +32,12 @@ int main(void)
 			if (args == NULL)
 			{
 				perror("./hsh");
-				exit(EXIT_FAILURE)
+				exit(EXIT_FAILURE);
 			}
 			args[count] = token;
 			args[count + 1] = NULL;
 			count++;
-			token = strtok(NULL, " ")
+			token = strtok(NULL, " ");
 		}
 		execute_command(args);
 		free(args);

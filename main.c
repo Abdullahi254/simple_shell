@@ -9,6 +9,7 @@ int main(void)
 	size_t buffer_size;
 	char *token;
 	char **args;
+	int count;
 
 	while (1)
 	{
@@ -31,15 +32,24 @@ int main(void)
 		{
 			continue;
 		}
+		args = malloc(sizeof(char *));
+		count = 0;
 		token = strtok(buffer, " ");
-		if (token != NULL)
+		while (token != NULL)
 		{
-			args = malloc(sizeof(char *) * 2);
-			args[0] = token;
-			args[1] = NULL;
-			execute_command(args);
-			free(args);
+			args = realloc(args, sizeof(char *) * (count + 2));
+			if (args == NULL)
+			{
+				perror("./hsh");
+				exit(EXIT_FAILURE)
+			}
+			args[count] = token;
+			args[count + 1] = NULL;
+			count++;
+			token = strtok(NULL, " ")
 		}
+		execute_command(args);
+		free(args);
 	}
 	free(buffer);
 	return (0);

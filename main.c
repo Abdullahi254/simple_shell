@@ -20,9 +20,9 @@ int main(void)
 		else if (status == 0)
 			break;
 		if (strlen(buffer) == 0)
-		{
 			continue;
-		}
+		if (strcmp(buffer, "exit") == 0)
+			break;
 		args = malloc(sizeof(char *));
 		count = 0;
 		token = strtok(buffer, " ");

@@ -9,37 +9,38 @@ int main(void)
 	size_t buffer_size;
 	char *token;
 	char **args;
+	int count, status;
 
 	while (1)
 	{
 		prompt();
-		if (getline(&buffer, &buffer_size, stdin) == -1)
+		status = get_line(&buffer, &buffer_size);
+		if (status == -1)
+			break;
+		else if (status == 0)
+			break;
+		if (strlen(buffer) == 0)
+			continue;
+		if (strcmp(buffer, "exit") == 0)
+			break;
+		args = malloc(sizeof(char *));
+		count = 0;
+		token = strtok(buffer, " ");
+		while (token != NULL)
 		{
-			if (feof(stdin))
-			{
-				printf("\n");
-				break;
-			}
-			else
+			args = realloc(args, sizeof(char *) * (count + 2));
+			if (args == NULL)
 			{
 				perror("./hsh");
-				break;
+				exit(EXIT_FAILURE);
 			}
+			args[count] = token;
+			args[count + 1] = NULL;
+			count++;
+			token = strtok(NULL, " ");
 		}
-		buffer[strcspn(buffer, "\n")] = '\0';
-		if (strlen(buffer) == 0)
-		{
-			continue;
-		}
-		token = strtok(buffer, " ");
-		if (token != NULL)
-		{
-			args = malloc(sizeof(char *) * 2);
-			args[0] = token;
-			args[1] = NULL;
-			execute_command(args);
-			free(args);
-		}
+		execute_command(args);
+		free(args);
 	}
 	free(buffer);
 	return (0);

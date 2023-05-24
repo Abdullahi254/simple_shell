@@ -5,7 +5,6 @@
  */
 void print_env(void)
 {
-	extern char **env;
 	char **local_env;
 
 	local_env = env;

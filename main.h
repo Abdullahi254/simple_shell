@@ -11,4 +11,5 @@
 void prompt(void);
 void execute_command(char *args[]);
 char get_line(char **buffer, size_t *buffer_size);
+void print_env(void);
 #endif

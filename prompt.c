@@ -1,7 +1,7 @@
 #include "main.h"
 /**
  * prompt - displays prompt
- * Return: void
+ * Return:void
  */
 void prompt(void)
 {

@@ -1,7 +1,7 @@
 #include "main.h"
 /**
  * execute_command - executes command entered by user
- * @args: argument or arguments  param entered by user
+ * @args: argument(s)  param entered by user
  * Return: void
  */
 void execute_command(char *args[])

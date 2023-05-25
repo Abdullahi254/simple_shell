@@ -20,4 +20,7 @@ int _putchar(char c);
 char *path_builder(char *exec_path, char *cmd);
 void print_env(void);
 extern char **environ;
+int _built_in(char **linecmd, char *lineptr);
+void (*_check_builtin(char *func))(char *str);
+void custom_free(char **str);
 #endif

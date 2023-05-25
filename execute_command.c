@@ -1,13 +1,15 @@
 #include "main.h"
+
 /**
- * execute_command - executes command entered by user
+ * _execve - function to execute a command
  * @argv: argument vector
  * @lineptr: string entered by user
  * @counter: command counter
  * @linecmd: array of tokens
- * Return: void
+ *
+ * Return: nothing
  */
-void execute_command(char **linecmd, char *lineptr, int counter, char **argv)
+void _execve(char **linecmd, char *lineptr, int counter, char **argv)
 {
 	struct stat buf;
 	int status, i;
@@ -15,10 +17,11 @@ void execute_command(char **linecmd, char *lineptr, int counter, char **argv)
 	int stat_check;
 	pid_t pid = fork();
 
+
 	if (pid == 0)
 	{
 		cmd = linecmd[0];
-		cmd_path = get_path(linecmd[0]);
+		cmd_path = _getpath(linecmd[0]);
 		if (cmd_path == NULL)
 		{
 			stat_check = stat(cmd, &buf);
@@ -40,7 +43,7 @@ void execute_command(char **linecmd, char *lineptr, int counter, char **argv)
 		if (linecmd[0] != NULL)
 		{
 			if (execve(linecmd[0], linecmd, environ) == -1)
-				print_error_execve(argv[0], counter, cmd);
+				_error_execve(argv[0], counter, cmd);
 		}
 	}
 	else

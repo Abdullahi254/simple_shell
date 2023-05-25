@@ -1,12 +1,37 @@
 #include "main.h"
 /**
- * string_to_token - converts string to tokens
+ * calculate_tokens - function to calculate token command
+ * @lineptr: pointer to string
+ * @delim: delimiter between strings
+ * Return: number of tokens
+ */
+int calculate_tokens(char *lineptr, const char *delim)
+{
+	int counter = 0;
+	char *token, *line_copy;
+
+	line_copy = _strdup(lineptr);
+	if (line_copy == NULL)
+		return (-1);
+
+	token = strtok(line_copy, delim);
+	while (token != NULL)
+	{
+		counter++;
+		token = strtok(NULL, delim);
+	}
+
+	free(line_copy);
+	return (counter);
+}
+/**
+ * _parse_to_token - tokenize the input (command)
  * @num_token: number of token returned by the function calculate_token
  * @lineptr: pointer to the command to be tokenized
  * @delim: the delimiter between tokens
  * Return: array of tokens to be passed to the execve function
  */
-char **string_to_token(int num_token, char *lineptr, const char *delim)
+char **_parse_to_token(int num_token, char *lineptr, const char *delim)
 {
 	char **arr_t;
 	int i = 0;
@@ -41,30 +66,4 @@ char **string_to_token(int num_token, char *lineptr, const char *delim)
 	}
 	free(line_copy);
 	return (arr_t);
-}
-
-/**
- * calculate_tokens - function to calculate token command
- * @lineptr: pointer to string
- * @delim: delimiter between strings
- * Return: number of tokens
- */
-int calculate_tokens(char *lineptr, const char *delim)
-{
-	int counter = 0;
-	char *token, *line_copy;
-
-	line_copy = _strdup(lineptr);
-	if (line_copy == NULL)
-		return (-1);
-
-	token = strtok(line_copy, delim);
-	while (token != NULL)
-	{
-		counter++;
-		token = strtok(NULL, delim);
-	}
-
-	free(line_copy);
-	return (counter);
 }

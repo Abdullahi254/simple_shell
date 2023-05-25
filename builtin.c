@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * _built_in - function that checks for builtin functions
  * @lineptr: string entered by user
@@ -15,7 +16,8 @@ int _built_in(char **linecmd, char *lineptr)
 		return (-1);
 
 	if (_strcmp("exit", linecmd[0]) == 0)
-		custom_free(linecmd);
+		_free_double_ptr(linecmd);
+
 	func_ptr(lineptr);
 	return (0);
 }
@@ -49,19 +51,22 @@ void (*_check_builtin(char *func))(char *str)
 }
 
 /**
- * custom_free - function that frees an array of strings
- * @str: array of strings
+ * _env - function that prints the environmental variables
+ * @lineptr: parameter
  *
- * Return: nothing
+ * Return: void
  */
-void custom_free(char **str)
+void _env(char *lineptr)
 {
-	int i = 0;
+	int i;
+	int j;
 
-	while (str[i] != NULL)
+	(void)lineptr;
+
+	for (i = 0; environ[i] != NULL; i++)
 	{
-		free(str[i]);
-		i++;
+		for (j = 0; environ[i][j] != '\0'; j++)
+			write(STDOUT_FILENO, &environ[i][j], 1);
+		write(STDOUT_FILENO, "\n", 1);
 	}
-	free(str);
 }

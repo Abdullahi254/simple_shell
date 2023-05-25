@@ -32,4 +32,8 @@ char **string_to_token(int num_token, char *lineptr, const char *delim);
 int calculate_tokens(char *lineptr, const char *delim);
 void exit_shell(char *lineptr);
 void _signal_ignore(int sig);
+char *_strcpy(char *dest, char *src);
+char *_strdup(char *str);
+int _strncmp(char *s1, char *s2, int n);
+char *_strcat(char *dest, char *src);
 #endif

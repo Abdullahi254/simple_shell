@@ -17,4 +17,5 @@ char **tokens_converter(char *str);
 unsigned int space_count(char *s);
 void _puts(char *str);
 int _putchar(char c);
+char *path_builder(char *exec_path, char *cmd);
 #endif

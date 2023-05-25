@@ -6,26 +6,15 @@
  */
 char **tokens_converter(char *str)
 {
-	int count;
-	int size;
+	int count = 0;
 	char **tokens;
-	char *token;
+	const char *delim = "\n:";
 
-	count = 0;
-	size = space_count(str) + 1;
-	tokens = malloc(sizeof(char *) * size);
-	if (!tokens)
-	{
-		fprintf(stderr, "sh: allocation error\n");
-		exit(1);
-	}
-	token = strtok(str, " ");
-	while (token != NULL)
-	{
-		tokens[count] = token;
-		token = strtok(NULL, " ");
-		count++;
-	}
-	tokens[count] = NULL;
+	str = getenv("PATH");
+	tokens = string_to_token(count, str, delim);
+	if (tokens == NULL)
+		return (NULL);
+
 	return (tokens);
 }
+

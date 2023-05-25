@@ -1,31 +1,52 @@
 #include "main.h"
 /**
  * execute_command - executes command entered by user
- * @args: argument or arguments  param entered by user
- * Return: 0 on success, -1 on exit and 1  when error
+ * @argv: argument vector
+ * @lineptr: string entered by user
+ * @counter: command counter
+ * @linecmd: array of tokens
+ * Return: void
  */
-int execute_command(char *args[])
+void execute_command(char **linecmd, char *lineptr, int counter, char **argv)
 {
-	pid_t pid;
-	int status;
+	struct stat buf;
+	int status, i;
+	char *cmd = NULL, *cmd_path = NULL;
+	int stat_check;
+	pid_t pid = fork();
 
-	if (strncmp("exit", args[0], 4) == 0)
-		return (-1);
-	pid = fork();
-	if (pid < 0)
+	if (pid == 0)
 	{
-		perror("Error");
-		return (1);
-	}
-	else if (pid == 0)
-	{
-		if (execve(args[0], args, NULL) == -1)
+		cmd = linecmd[0];
+		cmd_path = get_path(linecmd[0]);
+		if (cmd_path == NULL)
 		{
-			perror("Error");
-			exit(-1);
+			stat_check = stat(cmd, &buf);
+			if (stat_check == -1)
+			{
+				_print_error(argv[0], counter, cmd);
+				_puts(": not found");
+				_putchar('\n');
+				free(lineptr);
+				free(cmd);
+				for (i = 1; linecmd[i] != NULL; i++)
+					free(linecmd[i]);
+				free(linecmd);
+				exit(100);
+			}
+			cmd_path = cmd;
+		}
+		linecmd[0] = cmd_path;
+		if (linecmd[0] != NULL)
+		{
+			if (execve(linecmd[0], linecmd, environ) == -1)
+				print_error_execve(argv[0], counter, cmd);
 		}
 	}
 	else
 		wait(&status);
-	return (0);
+	if (WIFEXITED(status))
+	{
+		statuscode = WEXITSTATUS(status);
+	}
 }

@@ -16,4 +16,5 @@ int _strlen(const char *s);
 char **tokens_converter(char *str);
 unsigned int space_count(char *s);
 void _puts(char *str);
+int _putchar(char c);
 #endif

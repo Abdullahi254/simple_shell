@@ -17,16 +17,9 @@ char *path_builder(char *exec_path, char *cmd)
 	path = malloc(sizeof(char *) * size);
 	if (path == NULL)
 		return (NULL);
-	for (i = 0; exec_path[i] != '\0'; i++)
-	{
-		path[i] = exec_path[i];
-	}
-	path[i] = "\0";
-	i++;
-	path[i] = "/";
-	i++;
-	path[i] = cmd;
-	i++;
-	path[i] = "\0";
+	_strcpy(path, exec_path);
+	_strcat(path, "/");
+	_strcat(path, cmd);
+	_strcat(path, "\0");
 	return (path);
 }

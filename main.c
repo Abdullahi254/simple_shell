@@ -1,47 +1,45 @@
 #include "main.h"
 /**
  * main - entry point to the command line
+ * @argc: number of arguments
+ * @argv: list of arguments
  * Return: always 0
  */
-int main(void)
+int main(int argc, char **argv)
 {
 	char *buffer = NULL;
-	size_t buffer_size;
-	char *token;
-	char **args;
-	int count, status;
+	size_t buffer_size = BUFSIZ;
+	char **tokens;
+	int status;
+	int is_pipe;
 
-	while (1)
+	is_pipe = 0;
+	if (argc >= 2)
 	{
-		prompt();
-		status = get_line(&buffer, &buffer_size);
-		if (status == -1)
-			break;
-		else if (status == 0)
-			break;
-		if (strlen(buffer) == 0)
-			continue;
-		if (strcmp(buffer, "exit") == 0)
-			break;
-		args = malloc(sizeof(char *));
-		count = 0;
-		token = strtok(buffer, " ");
-		while (token != NULL)
+		if (execve(argv[1], argv, NULL) == -1)
 		{
-			args = realloc(args, sizeof(char *) * (count + 2));
-			if (args == NULL)
-			{
-				perror("./hsh");
-				exit(EXIT_FAILURE);
-			}
-			args[count] = token;
-			args[count + 1] = NULL;
-			count++;
-			token = strtok(NULL, " ");
+			perror("Error");
+			exit(-1)
 		}
-		execute_command(args);
-		free(args);
+		return (0);
 	}
-	free(buffer);
-	return (0);
+	buffer = (char *)malloc(buffer_size * sizeof(char));
+	if (buffer == NULL)
+	{
+		perror("Buffer allocation error");
+		exit(1);
+	}
+	do {
+		if (isatty(fileno(stdin)))
+		{
+			is_pipe = 1;
+			_puts("cisfun#: ");
+			
+		}
+		getline(&buffer, &buffer_size, stdin);
+		buffer[_strlen(buffer) - 1] = '\0';
+		tokens = tokens_converter(buffer);
+		status = execute_command(tokens);
+	}while (is_pipe && status != -1);
+	return (0)
 }

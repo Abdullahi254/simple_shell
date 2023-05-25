@@ -2,9 +2,9 @@
 /**
  * execute_command - executes command entered by user
  * @args: argument or arguments  param entered by user
- * Return: void
+ * Return: 0 on success, -1 on exit and 1  when error
  */
-void execute_command(char *args[])
+int execute_command(char *args[])
 {
 	pid_t pid;
 	int status;

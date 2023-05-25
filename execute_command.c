@@ -9,25 +9,23 @@ void execute_command(char *args[])
 	pid_t pid;
 	int status;
 
+	if (strncmp("exit", args[0], 4) == 0)
+		return (-1);
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("./hsh");
+		perror("Error");
+		return(1);
 	}
 	else if (pid == 0)
 	{
-		if (execvp(args[0], args) == -1)
+		if (execve(args[0], args, NULL) == -1)
 		{
-			perror("./hsh");
-			exit(EXIT_FAILURE);
+			perror("Error");
+			exit(-1);
 		}
 	}
 	else
-	{
-		waitpid(pid, &status, 0);
-		if (WIFSIGNALED(status))
-			WTERMSIG(status);
-		else if (WIFEXITED(status))
-			WEXITSTATUS(status);
-	}
+		wait(&status);
+	return (0);
 }

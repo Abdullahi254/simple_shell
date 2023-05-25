@@ -23,4 +23,5 @@ extern char **environ;
 int _built_in(char **linecmd, char *lineptr);
 void (*_check_builtin(char *func))(char *str);
 void custom_free(char **str);
+int _print_number(int n);
 #endif

@@ -1,19 +1,20 @@
 #include "main.h"
 /**
- * tokens_converter - tokenizes strings
+ * tokens_converter - creates token from string
  * @str: string passed as argument
- * Returns: array of tokens
+ * Return: array of tokens
  */
-char ** tokens_converter(char *str)
+char **tokens_converter(char *str)
 {
 	int count;
 	int size;
 	char **tokens;
 	char *token;
 
+	count = 0;
 	size = space_count(str) + 1;
 	tokens = malloc(sizeof(char *) * size);
-	if(!tokens)
+	if (!tokens)
 	{
 		fprintf(stderr, "sh: allocation error\n");
 		exit(1);
@@ -21,9 +22,10 @@ char ** tokens_converter(char *str)
 	token = strtok(str, " ");
 	while (token != NULL)
 	{
-		tokens[i] = token;
-		token = strtok(NULL, separator);
+		tokens[count] = token;
+		token = strtok(NULL, " ");
+		count++;
 	}
-	tokens[i] = NULL;
+	tokens[count] = NULL;
 	return (tokens);
 }

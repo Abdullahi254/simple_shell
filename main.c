@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 		if (execve(argv[1], argv, NULL) == -1)
 		{
 			perror("Error");
-			exit(-1)
+			exit(-1);
 		}
 		return (0);
 	}
@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 		if (isatty(fileno(stdin)))
 		{
 			is_pipe = 1;
-			_puts("cisfun#: ");
+			prompt();
 		}
 		getline(&buffer, &buffer_size, stdin);
 		buffer[_strlen(buffer) - 1] = '\0';

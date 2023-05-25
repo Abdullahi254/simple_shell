@@ -34,12 +34,11 @@ int main(int argc, char **argv)
 		{
 			is_pipe = 1;
 			_puts("cisfun#: ");
-			
 		}
 		getline(&buffer, &buffer_size, stdin);
 		buffer[_strlen(buffer) - 1] = '\0';
 		tokens = tokens_converter(buffer);
 		status = execute_command(tokens);
-	}while (is_pipe && status != -1);
-	return (0)
+	} while (is_pipe && status != -1);
+	return (0);
 }

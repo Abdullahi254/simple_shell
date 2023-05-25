@@ -15,7 +15,7 @@ int execute_command(char *args[])
 	if (pid < 0)
 	{
 		perror("Error");
-		return(1);
+		return (1);
 	}
 	else if (pid == 0)
 	{

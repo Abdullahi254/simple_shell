@@ -17,7 +17,6 @@ void _execve(char **linecmd, char *lineptr, int counter, char **argv)
 	int stat_check;
 	pid_t pid = fork();
 
-
 	if (pid == 0)
 	{
 		cmd = linecmd[0];
